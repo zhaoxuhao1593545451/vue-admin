@@ -33,10 +33,11 @@
 </template>
 
 <script>
+import {ref,reactive, isRef, isReactive,toRefs} from 'vue'
 import {validateEmail,validatePassword,validateCode} from '@/utils/validate.js'
 export default {
-  data(){
-    let validate1 = (rule, value, callback) => {
+  setup(){
+    const validate1 = (rule, value, callback) => {
       if (value === '') {
         callback(new Error('请输入邮箱'));
       } else if(validateEmail(value)){
@@ -45,7 +46,7 @@ export default {
         callback();
       }
     };
-    let validate2 = (rule, value, callback) => {
+    const validate2 = (rule, value, callback) => {
       if (value === '') {
         callback(new Error('请输入密码'));
       }else if(validatePassword(value)){
@@ -54,7 +55,7 @@ export default {
         callback();
       }
     };
-    let validate3 = (rule, value, callback) => {
+    const validate3 = (rule, value, callback) => {
       if (!value) {
         callback(new Error('请输入验证码'));
       }else if(validateCode(value)){
@@ -63,7 +64,7 @@ export default {
         callback();
       }
     };
-    let validate4 = (rule, value, callback) => {
+    const validate4 = (rule, value, callback) => {
       if (value === '') {
         callback(new Error('请重复输入密码'));
       }else if(value!=this.ruleForm.password){
@@ -72,40 +73,36 @@ export default {
         callback();
       }
     };
-    return{
-      tab:[
-        {text:'登录'},
-        {text:'注册'},
+    const rules=reactive({
+      email: [
+        { validator: validate1, trigger: 'blur' }
       ],
-      tabIndex:0,
-      ruleForm: {
-        email: '',
-        password: '',
-        code: '',
-        passwordRepeat:''
-      },
-      rules: {
-        email: [
-          { validator: validate1, trigger: 'blur' }
-        ],
-        password: [
-          { validator: validate2, trigger: 'blur' }
-        ],
-        code: [
-          { validator: validate3, trigger: 'blur' }
-        ],
-        passwordRepeat: [
-          { validator: validate4, trigger: 'blur' }
-        ],
-      }
+      password: [
+        { validator: validate2, trigger: 'blur' }
+      ],
+      code: [
+        { validator: validate3, trigger: 'blur' }
+      ],
+      passwordRepeat: [
+        { validator: validate4, trigger: 'blur' }
+      ],
+    })
+    const ruleForm=reactive({
+      email: '',
+      password: '',
+      code: '',
+      passwordRepeat:''
+    })
+    let tabIndex=ref(0)
+    const tab=reactive([
+      {text:'登录'},
+      {text:'注册'}
+    ])
+    const handleTab = index =>{
+      tabIndex.value=index;
     }
-  },
-  methods:{
-    handleTab(index){
-      this.tabIndex=index;
-    },
-    submitForm(formName) {
-      this.$refs[formName].validate((valid) => {
+    const submitForm= formName => {
+      ruleForm.validate((valid) => {
         if (valid) {
           alert('submit!');
         } else {
@@ -113,9 +110,20 @@ export default {
           return false;
         }
       });
-    },
+    }
+    return{
+      tabIndex,
+      tab,
+      rules,
+      ruleForm,
+      handleTab,
+      validate1,
+      validate2,
+      validate3,
+      validate4,
+      submitForm
+    }
   }
-
 }
 </script>
 
