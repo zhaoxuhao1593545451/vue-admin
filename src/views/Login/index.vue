@@ -1,7 +1,7 @@
 <template>
   <div class='container'>
     <div class='login-box'>
-
+      <el-button type="primary">主要按钮</el-button>
     </div>
   </div>
 </template>
