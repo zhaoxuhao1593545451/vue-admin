@@ -36,7 +36,7 @@
 import {ref,reactive, isRef, isReactive,toRefs} from 'vue'
 import {validateEmail,validatePassword,validateCode} from '@/utils/validate.js'
 export default {
-  setup(){
+  setup(props,context){
     const validate1 = (rule, value, callback) => {
       if (value === '') {
         callback(new Error('请输入邮箱'));
@@ -67,7 +67,7 @@ export default {
     const validate4 = (rule, value, callback) => {
       if (value === '') {
         callback(new Error('请重复输入密码'));
-      }else if(value!=this.ruleForm.password){
+      }else if(value!=ruleForm.password){
         callback(new Error('两次密码输入不一致,请重新输入'));
       }else{
         callback();
@@ -102,14 +102,14 @@ export default {
       tabIndex.value=index;
     }
     const submitForm= formName => {
-      ruleForm.validate((valid) => {
-        if (valid) {
-          alert('submit!');
-        } else {
-          console.log('error submit!!');
-          return false;
-        }
-      });
+      // form.value.validate((valid) => {
+      //   if (valid) {
+      //     alert('submit!');
+      //   } else {
+      //     console.log('error submit!!');
+      //     return false;
+      //   }
+      // });
     }
     return{
       tabIndex,

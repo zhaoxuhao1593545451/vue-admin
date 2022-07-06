@@ -7,7 +7,5 @@ import './assets/styles/base.scss';
 // 引入ElementUI
 import ElementPlus from 'element-plus';
 import 'element-plus/dist/index.css';
-//引入 CompositionApi
-// import VueCompositionAPI from '@vue/composition-api'
 
 createApp(App).use(store).use(router).use(ElementPlus).mount("#app");
