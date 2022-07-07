@@ -4,23 +4,23 @@
       <div class='tab'>
         <div v-for='(item,index) in tab' :key='item.id' :class='{tabToggle:tabIndex==index}' @click='handleTab(index)'>{{item.text}}</div>
       </div>
-      <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+      <el-form :model="ruleForm" status-icon :rules="rules" ref="formRef" label-width="100px" class="demo-ruleForm">
         <el-form-item label="邮箱" prop="email">
           <el-input type="text" v-model="ruleForm.email" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item label="密码" prop="password">
           <el-input type="password" v-model="ruleForm.password" autocomplete="off" minlength='6' maxlength='20'></el-input>
         </el-form-item>
-        <el-form-item label="重复密码" prop="passwordRepeat" v-show='tabIndex==1'>
+        <el-form-item label="重复密码" prop="passwordRepeat" v-if='tabIndex==1'>
           <el-input type="password" v-model="ruleForm.passwordRepeat" autocomplete="off" minlength='6' maxlength='20'></el-input>
         </el-form-item>
         <el-form-item label="验证码" prop="code">
           <el-row :gutter="10">
             <el-col :span="15">
-              <el-input v-model.number="ruleForm.code"></el-input>
+              <el-input v-model.number="ruleForm.code" minlength='6' maxlength='6'></el-input>
             </el-col>
             <el-col :span="9">
-              <el-button type="success" class='block'>获取验证码</el-button>
+              <el-button type="success" class='block' @click='handleCodeBtn()'>获取验证码</el-button>
             </el-col>
           </el-row>
         </el-form-item>
@@ -33,10 +33,11 @@
 </template>
 
 <script>
-import {ref,reactive, isRef, isReactive,toRefs} from 'vue'
+import {getInterfaceData} from '@/api/login.js'
+import {ref,reactive, isRef, isReactive,toRefs,onMounted} from 'vue'
 import {validateEmail,validatePassword,validateCode} from '@/utils/validate.js'
 export default {
-  setup(props,context){
+  setup(){
     const validate1 = (rule, value, callback) => {
       if (value === '') {
         callback(new Error('请输入邮箱'));
@@ -101,27 +102,34 @@ export default {
     const handleTab = index =>{
       tabIndex.value=index;
     }
-    const submitForm= formName => {
-      // form.value.validate((valid) => {
-      //   if (valid) {
-      //     alert('submit!');
-      //   } else {
-      //     console.log('error submit!!');
-      //     return false;
-      //   }
-      // });
+    const formRef=ref()
+    const submitForm= () => {
+      formRef.value.validate((valid) => {
+        if (valid) {
+          alert('submit!');
+        } else {
+          console.log('error submit!!');
+          return false;
+        }
+      });
     }
+    const handleCodeBtn =()=>{
+      getInterfaceData('get','/free/history/get');
+    }
+
     return{
       tabIndex,
       tab,
       rules,
       ruleForm,
+      formRef,
       handleTab,
       validate1,
       validate2,
       validate3,
       validate4,
-      submitForm
+      submitForm,
+      handleCodeBtn
     }
   }
 }
