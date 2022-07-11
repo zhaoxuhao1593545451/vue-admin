@@ -2,9 +2,9 @@ import service from '@/utils/request.js'
 /*
   获取验证码
 */
-export function getInterfaceData(type,url,data){
+export function getInterfaceData(method,url,data){
   return service.request({
-    type,
+    method,
     url,
     data
   })

@@ -5,15 +5,15 @@ module.exports = defineConfig({
   devServer: {
     /* 使用代理 */
     proxy: {
-      '/api': {
-          /* 目标代理服务器地址 */
-          target: 'https://qqlykm.cn',
-          pathRewrite: {
-            '^/api': '' //规定请求地址以什么作为开头
-          },
-          /* 允许跨域 */
-          changeOrigin: true,
-          ws:true
+      '/test1': {
+        /* 目标代理服务器地址 */
+        target: 'http://www.web-jshtml.cn/productapi',
+        /* 允许跨域 */
+        changeOrigin: true,
+        pathRewrite: {
+          '^/test1': ''
+        },
+        ws:true
       },
     },
   }

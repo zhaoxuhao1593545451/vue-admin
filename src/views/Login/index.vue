@@ -20,12 +20,12 @@
               <el-input v-model.number="ruleForm.code" minlength='6' maxlength='6'></el-input>
             </el-col>
             <el-col :span="9">
-              <el-button type="success" class='block' @click='handleCodeBtn()'>获取验证码</el-button>
+              <el-button type="success" class='block' @click='handleCodeBtn()' :disabled='codeObj.codeStatus'>{{codeObj.text}}</el-button>
             </el-col>
           </el-row>
         </el-form-item>
         <el-form-item>
-          <el-button type="danger" @click="submitForm('ruleForm')" class="block">提交</el-button>
+          <el-button type="danger" @click="submitForm()" class="block" :disabled='btnDisable'>{{tabIndex=='0'?'登录':'注册'}}</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -35,9 +35,11 @@
 <script>
 import {getInterfaceData} from '@/api/login.js'
 import {ref,reactive, isRef, isReactive,toRefs,onMounted} from 'vue'
+import {useRouter} from 'vue-router'
 import {validateEmail,validatePassword,validateCode} from '@/utils/validate.js'
 export default {
-  setup(){
+  setup(props,context){
+    const router=useRouter();
     const validate1 = (rule, value, callback) => {
       if (value === '') {
         callback(new Error('请输入邮箱'));
@@ -101,35 +103,64 @@ export default {
     ])
     const handleTab = index =>{
       tabIndex.value=index;
+      handleTimeEnd();
     }
     const formRef=ref()
     const submitForm= () => {
-      formRef.value.validate((valid) => {
-        if (valid) {
-          alert('submit!');
-        } else {
-          console.log('error submit!!');
-          return false;
-        }
-      });
+      router.push({path:'/home'})
+      // formRef.value.validate((valid) => {
+      //   if (valid) {
+      //     alert('submit!');
+      //   } else {
+      //     console.log('error submit!!');
+      //     return false;
+      //   }
+      // });
     }
+    const codeObj=reactive({
+      codeStatus:false,
+      text:'获取验证码'
+    })
     const handleCodeBtn =()=>{
-      getInterfaceData('get','/free/history/get');
+      codeObj.codeStatus=true;
+      handleTimeStart(60)
     }
-
+    let timer=ref(null)
+    const handleTimeStart=(num)=>{
+      codeObj.text=num;
+      timer=setInterval(()=>{
+        if(num<=0){
+          handleTimeEnd();
+        }else{
+          num--;
+          codeObj.text=num;
+        }
+      },1000)
+    }
+    const handleTimeEnd=()=>{
+      clearInterval(timer);
+      codeObj.codeStatus=false;
+      codeObj.text='获取验证码';
+    }
+    const btnDisable=ref(false)
     return{
       tabIndex,
       tab,
       rules,
       ruleForm,
       formRef,
+      btnDisable,
+      codeObj,
+      timer,
       handleTab,
       validate1,
       validate2,
       validate3,
       validate4,
       submitForm,
-      handleCodeBtn
+      handleCodeBtn,
+      handleTimeStart,
+      handleTimeEnd
     }
   }
 }
