@@ -18,5 +18,6 @@ export default {
     top:75px;
     bottom:0;
     background:pink;
+    padding:24px
   }
 </style>
