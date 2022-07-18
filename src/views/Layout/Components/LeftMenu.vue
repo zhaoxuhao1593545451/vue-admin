@@ -10,8 +10,8 @@
       router
     >
       <template v-for='item in routerOption' :key='item.id'>
-        <el-sub-menu v-if='item.show'>
-          <template #title :index='item.path'>
+        <el-sub-menu v-if='item.show' :index="item.path">
+          <template #title>
             <span>{{item.meta.name}}</span>
           </template>
           <el-menu-item v-for='childrenItem in item.children' :key='childrenItem.id' :index='childrenItem.path'>
