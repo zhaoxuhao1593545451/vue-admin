@@ -1,6 +1,12 @@
 /*初始化 start*/
 body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,select,button,textarea,p,blockquote,table,th,td { margin:0; padding:0; border: 0;}
 ol,ul,li { list-style:none; }
+@for $i from 1 through 100{
+  .ml-#{$i}{margin-left:(1px*$i)}
+  .mr-#{$i}{margin-right:(1px*$i)}
+  .mt-#{$i}{margin-top:(1px*$i)}
+  .mb-#{$i}{margin-bottom:(1px*$i)}
+}
 // body { background:red; color:#333; font-size:14px; line-height: 1; font-family: Verdana, Arial, Helvetica, sans-serif; -webkit-text-size-adjust:100%;}
 // td,th,caption { font-size:14px; }
 // h1, h2, h3, h4, h5, h6 { font-weight:normal; font-size:100%; }
