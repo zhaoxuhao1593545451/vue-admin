@@ -7,9 +7,9 @@
 </template>
 
 <script>
-import LeftMenu from './Components/LeftMenu'
-import HeaderNav from './Components/HeaderNav'
-import Content from './Components/Content'
+import LeftMenu from './components/leftMenu'
+import HeaderNav from './components/headerNav'
+import Content from './components/content'
 export default {
   components:{LeftMenu,HeaderNav,Content}
 }

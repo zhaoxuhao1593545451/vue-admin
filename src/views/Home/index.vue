@@ -52,17 +52,18 @@
     <el-table
       border
       :data="tableData"
-      style="width: 960px"
+      style="width: 1000px"
     >
       <el-table-column type="selection" width="60" />
       <el-table-column prop="title" label="标题" width="180" />
       <el-table-column prop="type" label="类别" width="180" />
       <el-table-column prop="date" label="日期" width="180" />
       <el-table-column prop="user" label="管理人" width="180" />
-      <el-table-column label="操作" width="180">
+      <el-table-column label="操作" width="220">
         <template #default="scope">
           <el-button size="small" @click="handleEditBtn(scope.$index, scope.row)">编辑</el-button>
           <el-button size="small" type="danger" @click="handleDeleteBtn(scope.$index, scope.row)">删除</el-button>
+          <el-button size="small" type="success" @click="handleDetailBtn(scope.row)">编辑详情</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -116,9 +117,11 @@
 
 <script>
 import { ref, reactive } from 'vue';
+import { useRouter } from 'vue-router';
 import { confirm } from '@/utils/message';
 export default {
   setup(){
+    const router = useRouter();
     let model=reactive({
       type:'1',
       date:'',
@@ -189,6 +192,12 @@ export default {
         console.log('删除成功')
       })
     }
+    const handleDetailBtn=({id})=> {
+      router.push({
+        name:'infoListDetail',
+        query:{name:'赵许淏'}
+      })
+    }
     const visible=ref(false);
     const handleClose=()=> {
       visible.value=false;
@@ -203,7 +212,7 @@ export default {
     ])
     return{
       model,options1,options2,tableData,currentPage,currentPageSize,total,visible,testVisible,modelForm,
-      handleCurrentChange,handleSizeChange,handleEditBtn,handleDeleteBtn,handleDeleteSelectBtn,handleClose
+      handleCurrentChange,handleSizeChange,handleEditBtn,handleDeleteBtn,handleDeleteSelectBtn,handleClose,handleDetailBtn
     }
   }
 }

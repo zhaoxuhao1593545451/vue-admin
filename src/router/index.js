@@ -16,7 +16,7 @@ const routes = [
       name:'222'
     },
     show:false,
-    component: () => import("../views/Login/index.vue"),
+    component: () => import("../views/login/index.vue"),
   },
   {
     path: "/Layout",
@@ -25,7 +25,7 @@ const routes = [
       name:'控制台'
     },
     show:true,
-    component: () => import("../views/Layout/index.vue"),
+    component: () => import("../views/layout/index.vue"),
     children:[
       {
         path: "/home",
@@ -33,7 +33,7 @@ const routes = [
         meta:{
           name:'首页'
         },
-        component: () => import("../views/Home/index.vue")
+        component: () => import("../views/home/index.vue")
       }
     ]
   },
@@ -44,7 +44,7 @@ const routes = [
       name:'信息管理'
     },
     show:true,
-    component: () => import("../views/Layout/index.vue"),
+    component: () => import("../views/layout/index.vue"),
     children:[
       {
         path: "/infoList",
@@ -52,7 +52,7 @@ const routes = [
         meta:{
           name:'信息列表'
         },
-        component: () => import("../views/InfoMange/InfoList.vue")
+        component: () => import("../views/infoMange/infoList.vue")
       },
       {
         path: "/infoClassify",
@@ -60,9 +60,18 @@ const routes = [
         meta:{
           name:'信息分类'
         },
-        component: () => import("../views/InfoMange/InfoClassify.vue")
+        component: () => import("../views/infoMange/infoClassify.vue")
       }
     ]
+  },
+  {
+    path: "/infoListDetail",
+    name: "infoListDetail",
+    meta:{
+      name:'信息详情'
+    },
+    show:false,
+    component: () => import("../views/infoMange/infoListDetail.vue"),
   },
   {
     path: "/userMange",
@@ -71,7 +80,7 @@ const routes = [
       name:'用户管理'
     },
     show:true,
-    component: () => import("../views/Layout/index.vue"),
+    component: () => import("../views/layout/index.vue"),
     children:[
       {
         path: "/userList",
@@ -79,10 +88,10 @@ const routes = [
         meta:{
           name:'用户列表'
         },
-        component: () => import("../views/UserMange/UserList.vue")
+        component: () => import("../views/userMange/userList.vue")
       }
     ]
-  },
+  }
 ];
 
 const router = createRouter({
